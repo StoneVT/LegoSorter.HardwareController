@@ -11,12 +11,12 @@ MqttConnector::MqttConnector(PubSubClient& client, const char* clientName){
 
 void MqttConnector::resubscribe(const char* inTopic){
   while(!_client->connected()){
-      Serial.println("Connecting as " + String(_clientName));
+      Serial.println("[MQTT]\tConnecting as " + String(_clientName) + "...");
     if(_client->connect(_clientName,"","")){
-      Serial.println("Connected as " + String(_clientName));
+      Serial.println("[MQTT]\tConnected as " + String(_clientName));
       _client->subscribe(inTopic, 1);
     } else {
-      Serial.println("\nTrying to resubscribe again.");
+      Serial.println("\n[MQTT]\tTrying to resubscribe again.");
       delay(5000);
     }
   }

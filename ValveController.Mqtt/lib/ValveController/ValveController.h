@@ -32,6 +32,7 @@ private:
 
 public:
     ValveController(int numberOfValves);
+    void initialisePins(const int valvePins[]);
     void checkEvents(const int valvePins[]);
     void addEvent(char* payload);
 };

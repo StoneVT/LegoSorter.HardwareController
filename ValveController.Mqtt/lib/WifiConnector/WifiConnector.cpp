@@ -12,7 +12,7 @@ WifiConnector::WifiConnector(){
 void connect(char* ssid, char* password) {
   delay(50);
   Serial.println();
-  Serial.print("\nConnecting to ");
+  Serial.print("\n[WIFI]\tConnecting to ");
   Serial.println(ssid);
 
   WiFi.mode(WIFI_STA);
@@ -24,8 +24,8 @@ void connect(char* ssid, char* password) {
   }
 
   randomSeed(micros());
-  Serial.println("WiFi connected.");
-  Serial.println("IP address: ");
+  Serial.println("[WIFI]\tconnected.");
+  Serial.println("[WIFI]\tIP address: ");
   Serial.print(WiFi.localIP());
   Serial.println("");
 }
@@ -33,25 +33,30 @@ void connect(char* ssid, char* password) {
 
 void WifiConnector::ensureConnection(char* ssid, char* password) {
   unsigned long currentMillis = millis();
-  if(currentMillis - PreviousMillis >= Interval) {
+  if(currentMillis - _previousMillis >= _interval) {
     if(WiFi.status()== WL_CONNECTED ) {
-      if(Online == 0) {// was disconnected, now connected
-        Serial.println("Wifi connection established");
-        Online = 1;
+      if(_online == 0) {// was disconnected, now connected
+        Serial.println("[WIFI]\tConnection established");
+        _online = 1;
       }
     } else{
-      if(Online == 1){ //was Online, now disconnected
-        Serial.println("Wifi connection lost");
-        Online = 0;
+      if(_online == 1){ //was Online, now disconnected
+        Serial.println("[WIFI]\tConnection lost");
+        _online = 0;
       }
-      Serial.println("Trying to Reconnect to Wifi.");
+      Serial.println("[WIFI]\tTrying to Reconnect");
       while(WiFi.status() != WL_CONNECTED) {
         connect(ssid,password);
         delay(500);
-        Serial.print("Reconnecting...");
+        Serial.print("[WIFI]\tReconnecting...");
       }
     }
-     PreviousMillis = currentMillis;
+     _previousMillis = currentMillis;
   }
+}
+
+
+wl_status_t WifiConnector::status(){
+    return WiFi.status();
 }
 

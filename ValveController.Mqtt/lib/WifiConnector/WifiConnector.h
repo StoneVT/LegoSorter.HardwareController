@@ -9,12 +9,14 @@
 #include <WiFi.h>
 
 class WifiConnector{
-    bool Online = 0;
-    unsigned long PreviousMillis = 0;
-    const long Interval = 2000; 
-    public:
-        WifiConnector();
-        void ensureConnection(char* ssid, char* password);
+private:
+    bool _online = 0;
+    unsigned long _previousMillis = 0;
+    const long _interval = 2000; 
+public:
+    WifiConnector();
+    wl_status_t status();
+    void ensureConnection(char* ssid, char* password);
 };
 
 

@@ -18,7 +18,7 @@ String TimestampModifier::getUnixTimeStamp(){
         milliEpoch = String(now()) + buffer;
         if(tries > 1) {
         delay(1);
-        Serial.println("getting unix timestamp. Try: " + String(tries) + " Length: " + String(milliEpoch.length()));
+        Serial.println("[TIME]\tGetting unix timestamp. Try: " + String(tries) + " Length: " + String(milliEpoch.length()));
         }
         tries += 1;
         } while (milliEpoch.length() != 13);
