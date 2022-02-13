@@ -9,15 +9,27 @@
 #include <WiFiClient.h>
 #include <PubSubClient.h>
 
-class MqttConnector{  
+
+#include "Event.h"
+
+class MqttConnector : public event::EventHandler {  
 private:
-    PubSubClient* _client;
+    PubSubClient _client;
     const char* _clientName;
+    const char* statusTopic_ = "valvecontroller/1/status";
+    const char* pushBrickTopic_ = "pushbrick";
+
+private:
+    static void callback(char* topic, byte* payload, unsigned int length);
+
 public:
-    MqttConnector(PubSubClient& client, const char* clientName);
-    PubSubClient& setClient(PubSubClient& client);
+    MqttConnector(const char* clientName, const char* ip, const uint_fast16_t port);
     const char* setClientName(const char* clientName);
     void resubscribe(const char* inTopic);
+
+    void CheckConnection();
+    void HandleEvent(event::Event* e) override;
+
 };
 
 
