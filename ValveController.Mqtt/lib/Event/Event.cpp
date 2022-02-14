@@ -16,6 +16,7 @@ event::EventHandler::~EventHandler()
 void event::EventHandler::AddEventHandler(EventHandler* handler) 
 {
     eventHandlers_.push_back(handler);
+    handler->AddEventSource(this);
 }
 
 void event::EventHandler::AddEventSource(EventHandler* source)
@@ -38,7 +39,13 @@ void event::EventHandler::Notify()
     }
 }
 
-void event::EventHandler::RemoveEventHandler(EventHandler* source) 
+void event::EventHandler::RemoveEventHandler(EventHandler* handler)
 {
-    eventHandlers_.erase(std::remove(eventHandlers_.begin(), eventHandlers_.end(), source), eventHandlers_.end()); 
+    eventHandlers_.erase(std::remove(eventHandlers_.begin(), eventHandlers_.end(), handler), eventHandlers_.end());
+    handler->RemoveEventSource(this);
+}
+
+void event::EventHandler::RemoveEventSource(EventHandler* source)
+{
+  eventSources_.erase(std::remove(eventSources_.begin(), eventSources_.end(), source), eventSources_.end());
 }

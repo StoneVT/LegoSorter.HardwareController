@@ -42,6 +42,7 @@ namespace event {
             void RemoveEventHandler(EventHandler* handler);
 
             void AddEventSource(EventHandler* source);
+            void RemoveEventSource(EventHandler* source);
             
             virtual void HandleEvent(Event* e);
 
